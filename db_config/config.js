@@ -1,7 +1,7 @@
 const config = {
-  host: 'r101.ams1.mysecurecloudhost.com',
+  host: 'localhost',
   username: 'alakacak_alakacak',
-  password: 'YSs#1ij70e*QY6',
+  password: 'UlyLoKY5dkXG',
   database: 'alakacak_cake',
   port: 3306,
   dialect: 'mysql',
