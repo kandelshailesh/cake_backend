@@ -5,7 +5,6 @@ const config = {
   database: 'alakacak_cake',
   port: 3306,
   dialect: 'mysql',
-  logging: console.log,
   pool: {
     max: 100,
     min: 0,

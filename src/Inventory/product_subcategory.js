@@ -6,6 +6,7 @@ const Category = require('../../models/Inventory/product_category');
 const Product = require('../../models/Inventory/inventory_product');
 const sequelize = require('../../db_config/db');
 const db= sequelize.models;
+const debug = require('debug')('shailesh');
 
 const checkSubcategory = (name) => {
     return new Promise((resolve, reject) => {
@@ -29,7 +30,7 @@ const checkSubcategory = (name) => {
 module.exports = {
     displaySubcategory: (req, res) => {
         Subcategory.findAll({ include:[{model:Category},{model:Product,include:[{model:db.productUnit},{model:db.inventoryProductShape},{model:db.inventoryProductFlavour}]}]}).then((result) => {
-            console.log(result);
+           debug(result);
             res.send({
                 success: true,
                 subcategorylist: result

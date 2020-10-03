@@ -1,20 +1,23 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const app = express();
 const glob = require('glob');
 const path = require('path');
 const port = process.env.PORT || 8020;
 const sequelize = require('./db_config/db');
 const error_handler = require('./middlewares/error_handler');
 const fs = require('fs');
+const debug =require('debug')('shailesh');
+const app = express();
+app.set('trust proxy',true);
+app.use(morgan('dev'));
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
   flags: 'a',
 });
 
 // setup the logger
-app.use(morgan('combined', { stream: accessLogStream }));
-app.use(morgan('dev'));
+//app.use(morgan('combined', { stream: accessLogStream }));
+//app.use(morgan('tiny'));
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
@@ -46,6 +49,7 @@ sequelize
     app.listen(port, () => {
       console.log('Listening on port ', port);
     });
+	debug('Hello from debug');
   })
   .catch(err => {
     console.log(err);
