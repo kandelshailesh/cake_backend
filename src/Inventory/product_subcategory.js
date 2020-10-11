@@ -42,7 +42,7 @@ module.exports = {
       ],
     })
       .then(result => {
-        debug(result);
+        console.log(result);
         res.send({
           success: true,
           subcategorylist: result,
@@ -82,33 +82,6 @@ module.exports = {
             message: 'Subcategory name already exists',
           });
         }
-      })
-      .catch(err => {
-        console.log(err);
-        res.json({
-          success: false,
-          message: err,
-        });
-      });
-  },
-  updateSubcategory: (req, res) => {
-    Subcategory.update(req.body, {
-      where: {
-        id: req.body.id,
-      },
-    })
-      .then(result => {
-        res.send({
-          success: true,
-          message: 'Subcategory created successfully',
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        res.send({
-          success: false,
-          message: 'Error while creating Subcategory',
-        });
       })
       .catch(err => {
         console.log(err);
