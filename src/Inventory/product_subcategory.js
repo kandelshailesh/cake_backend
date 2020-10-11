@@ -4,12 +4,7 @@ const Subcategory = require('../../models/Inventory/product_subcategory');
 const Category = require('../../models/Inventory/product_category');
 const Product = require('../../models/Inventory/inventory_product');
 const sequelize = require('../../db_config/db');
-<<<<<<< HEAD
-const db= sequelize.models;
-const debug = require('debug')('shailesh');
-=======
 const db = sequelize.models;
->>>>>>> 791b77da3d61517c2c27fc2c1dba5d619b818e4f
 
 const checkSubcategory = name => {
   return new Promise((resolve, reject) => {
@@ -32,65 +27,6 @@ const checkSubcategory = name => {
 };
 
 module.exports = {
-<<<<<<< HEAD
-    displaySubcategory: (req, res) => {
-        Subcategory.findAll({ include:[{model:Category},{model:Product,include:[{model:db.productUnit},{model:db.inventoryProductShape},{model:db.inventoryProductFlavour}]}]}).then((result) => {
-           debug(result);
-            res.send({
-                success: true,
-                subcategorylist: result
-            })
-
-        }).catch((err) => {
-            console.log(err);
-            res.status(500).send({
-                success: false,
-                message: 'Error in connecting to table'
-
-            })
-        })
-    },
-    createSubcategory: (req, res) => {
-        console.log(req.body);
-        checkSubcategory(req.body.name).then((result) => {
-            // console.log(result);
-            if (result === 1) {
-                Subcategory.create(req.body).then((result) => {
-                    res.send({
-                        success: true,
-                        message: 'Subcategory created successfully'
-                    })
-                }).catch((err) => {
-                    console.log(err);
-                    res.send({
-                        success: false,
-                        message: 'Error while creating Subcategory'
-                    })
-                })
-
-            }
-            else {
-                res.send({
-                    success: false,
-                    message: 'Subcategory name already exists'
-                })
-            }
-        }).catch((err) => {
-            console.log(err);
-            res.json({
-                success: false,
-                message: err
-            })
-        })
-    },
-    updateSubcategory: (req, res) => {
-        Subcategory.update(req.body, {
-            where: {
-                id: req.body.id
-            }
-        }).then((result) => {
-            res.send({
-=======
   displaySubcategory: (req, res) => {
     Subcategory.findAll({
       include: [
@@ -106,7 +42,7 @@ module.exports = {
       ],
     })
       .then(result => {
-        console.log(result);
+        debug(result);
         res.send({
           success: true,
           subcategorylist: result,
@@ -129,7 +65,6 @@ module.exports = {
           Subcategory.create(req.body)
             .then(result => {
               res.send({
->>>>>>> 791b77da3d61517c2c27fc2c1dba5d619b818e4f
                 success: true,
                 message: 'Subcategory created successfully',
               });
@@ -138,13 +73,6 @@ module.exports = {
               console.log(err);
               res.send({
                 success: false,
-<<<<<<< HEAD
-                message: 'Error in deleting rows'
-            })
-        })
-    }
-}
-=======
                 message: 'Error while creating Subcategory',
               });
             });
@@ -154,6 +82,33 @@ module.exports = {
             message: 'Subcategory name already exists',
           });
         }
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          success: false,
+          message: err,
+        });
+      });
+  },
+  updateSubcategory: (req, res) => {
+    Subcategory.update(req.body, {
+      where: {
+        id: req.body.id,
+      },
+    })
+      .then(result => {
+        res.send({
+          success: true,
+          message: 'Subcategory created successfully',
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.send({
+          success: false,
+          message: 'Error while creating Subcategory',
+        });
       })
       .catch(err => {
         console.log(err);
@@ -202,4 +157,3 @@ module.exports = {
       });
   },
 };
->>>>>>> 791b77da3d61517c2c27fc2c1dba5d619b818e4f
