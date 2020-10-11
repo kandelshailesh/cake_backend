@@ -27,8 +27,10 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // models relation
 const Inventory_Relation = require('./models/Inventory/inventory_relation');
+const Order_Relation = require('./models/Orders/orders_relation');
 
 Inventory_Relation.relation();
+Order_Relation.relation();
 
 glob.sync('./controllers/**/*.js').map(function (file) {
   app.use('/', require(path.resolve(file)));
@@ -46,6 +48,7 @@ sequelize
   .sync({ force: false })
   .then(() => {
     console.log('DB connected successfully');
+
     app.listen(port, () => {
       console.log('Listening on port ', port);
     });
