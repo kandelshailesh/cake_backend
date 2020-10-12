@@ -64,6 +64,71 @@ module.exports = {
         });
       });
   },
+  displayProductBySubCategory: (req, res) => {
+    console.log(req.body);
+    if (Number(req.body.subcategory_id) > 0) {
+      Product.findAll({
+        where: {
+          subcategory_id: req.body.subcategory_id,
+        },
+        include: [
+          {
+            model: Subcategory,
+            include: { model: Category },
+          },
+          { model: Unit },
+          { model: Product_Shape, required: false, include: { model: Shape } },
+          {
+            model: Product_Flavour,
+            required: false,
+            include: { model: Flavour },
+          },
+        ],
+      })
+        .then(result => {
+          res.send({
+            success: true,
+            productlist: result,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send({
+            success: false,
+            message: 'Error in connecting to table',
+          });
+        });
+    } else {
+      Product.findAll({
+        include: [
+          {
+            model: Subcategory,
+            include: { model: Category },
+          },
+          { model: Unit },
+          { model: Product_Shape, required: false, include: { model: Shape } },
+          {
+            model: Product_Flavour,
+            required: false,
+            include: { model: Flavour },
+          },
+        ],
+      })
+        .then(result => {
+          res.send({
+            success: true,
+            productlist: result,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).send({
+            success: false,
+            message: 'Error in connecting to table',
+          });
+        });
+    }
+  },
   displayProductByID: (req, res) => {
     Product.findAll({
       where: {

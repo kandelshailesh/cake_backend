@@ -32,6 +32,10 @@ const Order_Item = dbSequelizer.define('orders_item', {
     type: Sequelize.FLOAT,
     allowNull: false,
   },
+  message: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
   delivered_date: {
     type: Sequelize.DATE,
   },

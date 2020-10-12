@@ -12,5 +12,10 @@ app.get(
 );
 app.put('/inventory_product/update', verify_token, Product.updateProduct);
 app.delete('/inventory_product/delete', verify_token, Product.deleteProduct);
+app.post(
+  '/inventory_product_by_subcategory/list',
+  verify_token,
+  Product.displayProductBySubCategory,
+);
 
 module.exports = app;

@@ -18,9 +18,9 @@ const Order = dbSequelizer.define('orders', {
   city: {
     type: Sequelize.TEXT,
   },
-  country: {
-    type: Sequelize.TEXT,
-  },
+  // country: {
+  //   type: Sequelize.TEXT,
+  // },
   total_amount: {
     type: Sequelize.FLOAT,
     allowNull: false,

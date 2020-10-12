@@ -93,14 +93,12 @@ module.exports = {
                 required: false,
               },
               {
-                model: db.orderFlavour,
+                model: db.productFlavour,
                 required: false,
-                include: { model: db.productFlavour },
               },
               {
-                model: db.orderShape,
+                model: db.productShape,
                 required: false,
-                include: { model: db.productShape },
               },
             ],
           },
@@ -120,6 +118,7 @@ module.exports = {
     }
   },
   createOrder: async (req, res) => {
+    console.log(req.body);
     try {
       const order = await Order.create(req.body);
       const order_id = order.getDataValue('order_id');
@@ -129,30 +128,31 @@ module.exports = {
       });
 
       const check_id = await OrderItem.bulkCreate(createItem);
-      console.log(check_id);
-      const createFlavour = createItem.map((result, i) => {
-        return result.flavour.map((result1, j) => {
-          return {
-            ...result1,
-            order_item_id: check_id[i].getDataValue('id'),
-          };
-        });
-      });
-      const createShape = createItem.map((result, i) => {
-        return result.shape.map((result1, j) => {
-          return {
-            ...result1,
-            order_item_id: check_id[i].getDataValue('id'),
-          };
-        });
-      });
-      console.log(createShape);
-      console.log(createFlavour);
-      await OrderFlavour.bulkCreate(createFlavour[0]);
-      await OrderShape.bulkCreate(createShape[0]);
+      // console.log(check_id);
+      // const createFlavour = createItem.map((result, i) => {
+      //   return result.flavour.map((result1, j) => {
+      //     return {
+      //       ...result1,
+      //       order_item_id: check_id[i].getDataValue('id'),
+      //     };
+      //   });
+      // });
+      // const createShape = createItem.map((result, i) => {
+      //   return result.shape.map((result1, j) => {
+      //     return {
+      //       ...result1,
+      //       order_item_id: check_id[i].getDataValue('id'),
+      //     };
+      //   });
+      // });
+      // console.log(createShape);
+      // console.log(createFlavour);
+      // await OrderFlavour.bulkCreate(createFlavour[0]);
+      // await OrderShape.bulkCreate(createShape[0]);
       res.send({
         success: true,
         message: 'Order created successfully',
+        order_id,
       });
     } catch (err) {
       console.log(err);

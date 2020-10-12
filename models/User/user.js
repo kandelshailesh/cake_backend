@@ -26,6 +26,10 @@ const User = dbSequelizer.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    city: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     contact_no: {
       type: Sequelize.STRING(15),
       allowNull: false,

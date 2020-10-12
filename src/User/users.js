@@ -149,7 +149,30 @@ module.exports = {
         });
       })
       .catch(err => {
+        res.status(500).send({
+          success: false,
+          message: 'Error in connecting to User table',
+        });
+      });
+  },
+  displayUserById: (req, res) => {
+    User.findAll({
+      where: {
+        user_id: req.params.id,
+      },
+      attributes: {
+        exclude: ['password'],
+      },
+    })
+      .then(result => {
         res.send({
+          success: true,
+          userlist: result,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send({
           success: false,
           message: 'Error in connecting to User table',
         });
@@ -189,7 +212,7 @@ module.exports = {
       })
       .catch(err => {
         console.log(err);
-        res.send({
+        res.status(500).send({
           success: false,
           message: err.message,
         });
@@ -259,6 +282,7 @@ module.exports = {
         }
       })
       .catch(err => {
+        console.log(err);
         res.status(500).send({ success: false, message: err.message });
       });
   },
