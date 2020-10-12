@@ -56,13 +56,7 @@ const Order = dbSequelizer.define('orders', {
   shipping_address: {
     type: Sequelize.VIRTUAL,
     get() {
-      return (
-        this.get('address') +
-        ', ' +
-        this.get('city') +
-        ' ,' +
-        this.get('country')
-      );
+      return this.get('address') + ', ' + this.get('city');
     },
   },
 });
