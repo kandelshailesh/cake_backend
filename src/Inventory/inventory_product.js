@@ -175,50 +175,92 @@ module.exports = {
               function (err, filepath) {
                 console.log(filepath);
                 req.body.image = filepath;
+                Product.create(req.body)
+                  .then(result => {
+                    console.log(result.id);
+                    const flavourlist = [];
+                    const shapelist = [];
+
+                    if (req.body.flavourid.length > 0) {
+                      req.body.flavourid.forEach((specification, i) => {
+                        flavourlist.push({
+                          product_id: result.id,
+                          flavour_id: specification,
+                        });
+                      });
+                      req.body.shapeid.forEach((shape, i) => {
+                        shapelist.push({
+                          product_id: result.id,
+                          shape_id: shape,
+                        });
+                      });
+                      Promise.all([
+                        Product_Flavour.bulkCreate(flavourlist),
+                        Product_Shape.bulkCreate(shapelist),
+                      ]).then(result1 => {
+                        res.send({
+                          success: true,
+                          message: 'Product created successfully',
+                        });
+                      });
+                    } else {
+                      res.send({
+                        success: true,
+                        message: 'Product created successfully',
+                      });
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).send({
+                      success: false,
+                      message: err,
+                    });
+                  });
               },
             );
           } else {
             req.body.image = null;
-          }
-          Product.create(req.body)
-            .then(result => {
-              console.log(result.id);
-              const flavourlist = [];
-              const shapelist = [];
+            Product.create(req.body)
+              .then(result => {
+                console.log(result.id);
+                const flavourlist = [];
+                const shapelist = [];
 
-              if (req.body.flavourid.length > 0) {
-                req.body.flavourid.forEach((specification, i) => {
-                  flavourlist.push({
-                    product_id: result.id,
-                    flavour_id: specification,
+                if (req.body.flavourid.length > 0) {
+                  req.body.flavourid.forEach((specification, i) => {
+                    flavourlist.push({
+                      product_id: result.id,
+                      flavour_id: specification,
+                    });
                   });
-                });
-                req.body.shapeid.forEach((shape, i) => {
-                  shapelist.push({ product_id: result.id, shape_id: shape });
-                });
-                Promise.all([
-                  Product_Flavour.bulkCreate(flavourlist),
-                  Product_Shape.bulkCreate(shapelist),
-                ]).then(result1 => {
+                  req.body.shapeid.forEach((shape, i) => {
+                    shapelist.push({ product_id: result.id, shape_id: shape });
+                  });
+                  Promise.all([
+                    Product_Flavour.bulkCreate(flavourlist),
+                    Product_Shape.bulkCreate(shapelist),
+                  ]).then(result1 => {
+                    res.send({
+                      success: true,
+                      message: 'Product created successfully',
+                    });
+                  });
+                } else {
                   res.send({
                     success: true,
                     message: 'Product created successfully',
                   });
+                }
+              })
+              .catch(err => {
+                console.log(err);
+                res.status(500).send({
+                  success: false,
+                  message: err,
                 });
-              } else {
-                res.send({
-                  success: true,
-                  message: 'Product created successfully',
-                });
-              }
-            })
-            .catch(err => {
-              console.log(err);
-              res.status(500).send({
-                success: false,
-                message: err,
               });
-            });
+          }
         } else {
           res.status(500).send({
             success: false,
