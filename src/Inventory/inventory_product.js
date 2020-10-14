@@ -235,7 +235,7 @@ module.exports = {
       });
   },
   updateProduct: (req, res) => {
-    if (req.body.imagebase) {
+    if (req.body.imagechange) {
       base64Img.img(
         req.body.imagebase,
         'uploads/',
