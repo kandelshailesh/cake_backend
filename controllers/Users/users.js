@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt');
 const User = require('../../src/User/users');
 const verify_token = require('../../middlewares/verify_token');
 
-app.post('/user/register', verify_token, User.createUser);
-app.post('/user/login', verify_token, User.loginUser);
+app.post('/user/register', User.createUser);
+app.post('/user/login', User.loginUser);
 app.get('/user/list', verify_token, User.displayUser);
 app.get('/user/list/:id', verify_token, User.displayUserById);
 

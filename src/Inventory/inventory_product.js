@@ -336,7 +336,6 @@ module.exports = {
         },
       );
     } else {
-      req.body.image = null;
       Product.update(req.body, {
         where: {
           id: req.body.id,

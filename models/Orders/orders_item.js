@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const dbSequelizer = require('../../db_config/db');
+const base64Img = require('base64-img');
 
 const Order_Item = dbSequelizer.define('orders_item', {
   id: {
@@ -38,6 +39,21 @@ const Order_Item = dbSequelizer.define('orders_item', {
   },
   delivered_date: {
     type: Sequelize.DATE,
+  },
+  image: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    set(value) {
+      const upload_image = value
+        ? base64Img.imgSync(
+            value,
+            'uploads',
+            (Math.random() + 1).toString(36).substring(7),
+          )
+        : '';
+      console.log('Upload Image', upload_image);
+      this.setDataValue('image', upload_image);
+    },
   },
 });
 

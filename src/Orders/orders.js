@@ -7,6 +7,7 @@ const OrderFlavour = require('../../models/Orders/orders_flavour');
 const jwt = require('jsonwebtoken');
 const sequelize = require('../../db_config/db');
 const db = sequelize.models;
+var base64Img = require('base64-img');
 
 module.exports = {
   displayPendingOrder: async (req, res) => {
@@ -126,29 +127,7 @@ module.exports = {
       const createItem = req.body.order_item.map((result, i) => {
         return { ...result, order_id: order_id };
       });
-
       const check_id = await OrderItem.bulkCreate(createItem);
-      // console.log(check_id);
-      // const createFlavour = createItem.map((result, i) => {
-      //   return result.flavour.map((result1, j) => {
-      //     return {
-      //       ...result1,
-      //       order_item_id: check_id[i].getDataValue('id'),
-      //     };
-      //   });
-      // });
-      // const createShape = createItem.map((result, i) => {
-      //   return result.shape.map((result1, j) => {
-      //     return {
-      //       ...result1,
-      //       order_item_id: check_id[i].getDataValue('id'),
-      //     };
-      //   });
-      // });
-      // console.log(createShape);
-      // console.log(createFlavour);
-      // await OrderFlavour.bulkCreate(createFlavour[0]);
-      // await OrderShape.bulkCreate(createShape[0]);
       res.send({
         success: true,
         message: 'Order created successfully',
